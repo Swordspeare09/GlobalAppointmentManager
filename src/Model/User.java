@@ -13,10 +13,10 @@ public class User {
     
     //Priavte class variables
     private static String userName;
-    private static String userID;
+    private static Integer userID;
     private static boolean activeState;
 
-    public User(String userName, String userID, boolean activeState) {
+    public User(String userName, Integer userID, boolean activeState) {
         this.userName = userName;
         this.userID = userID;
         this.activeState = activeState;
@@ -39,14 +39,14 @@ public class User {
     /**
      * @return the userPassword
      */
-    public static String getUserID() {
+    public static Integer getUserID() {
         return userID;
     }
 
     /**
      * @param userID the userPassword to set
      */
-    public static void setUserID(String userID) {
+    public static void setUserID(Integer userID) {
         User.userID = userID;
     }
 

@@ -5,6 +5,7 @@
  */
 package Utils;
 
+import Model.Appointments;
 import Model.Country;
 import Model.Customer;
 import Model.Region;
@@ -14,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +32,7 @@ public class DBQuerry {
     static ObservableList<Country> countryList = FXCollections.observableArrayList();
     static ObservableList<Region> regionList = FXCollections.observableArrayList();
     static ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    static ObservableList<Appointments> appointmentList = FXCollections.observableArrayList(); 
     
     //Create Statement Object
     public static void setPreparedStatement(Connection conn, String SQLStatement) throws SQLException
@@ -56,7 +60,7 @@ public class DBQuerry {
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     
-                    User currentUser = new User(rs.getString("User_Name"), rs.getString("User_ID"), true);
+                    User currentUser = new User(rs.getString("User_Name"), rs.getInt("User_ID"), true);
                     return true;
                 }
                 else {
@@ -157,8 +161,39 @@ public class DBQuerry {
         return customerList;
     }
     
-    public static ObservableList<Appointment>
-    
+    public static ObservableList<Appointments>getAllAppointments()
+    {
+        try{
+            //Clears out appointments to remove duplicate listings
+            appointmentList.removeAll(appointmentList);
+            Connection conn = DBConnection.getConnection();
+            String queryStatement = "SELECT a.Appointment_ID, a.Type, a.Title, a.Description, a.Location, a.Start, a.End, "
+                    + "cus.Customer_ID, a.Contact_ID from appointments as a inner join customers as cus on a.Customer_ID = cus.Customer_ID "
+                    + "inner join contacts as con on a.Contact_ID = con.Contact_ID;";
+            DBQuerry.setPreparedStatement(conn, queryStatement);
+            PreparedStatement ps = DBQuerry.getPreparedStatement();
+            ResultSet tempList = ps.executeQuery();
+            while(tempList.next())
+            {
+                Appointments tempApp = new Appointments( 
+                        tempList.getInt("Appointment_ID"),
+                        tempList.getString("Title"),
+                        tempList.getString("Type"),
+                        tempList.getString("Description"),
+                        tempList.getString("Location"),
+                        LocalDateTime.of(tempList.getDate("Start").toLocalDate(), tempList.getTime("Start").toLocalTime()),
+                        LocalDateTime.of(tempList.getDate("End").toLocalDate(), tempList.getTime("End").toLocalTime()),
+                        tempList.getInt("Customer_ID"),
+                        User.getUserID(),
+                        tempList.getInt("Contact_ID")
+                );
+                appointmentList.add(tempApp);
+            }
+        }catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        return appointmentList;
+    }
    
     public static void addCustomer(Customer newCust, int regionID) throws SQLException
     {

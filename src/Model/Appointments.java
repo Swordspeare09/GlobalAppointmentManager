@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author corte
@@ -12,21 +14,30 @@ package Model;
 public class Appointments {
     
     //Priavte class variables
-    private int id;
+    private Integer id;
     private String title;
+    private String type;
     private String description;
     private String location;
-    private String type;
-    private String start;
-    private String end;
-    private String createDate;
-    private String createdBy;
-    private String lastUpdate;
-    private String lastUpdatedBy;
-    private String customer;
-    private String user;
-    private String contact;
-
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private Integer customerID;
+    private Integer userID;
+    private Integer contactID;
+    
+    public Appointments(Integer id, String title, String type, String description, String location, LocalDateTime start, LocalDateTime end, Integer customerID, Integer userID, Integer contactID)
+    {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.description = description;
+        this.location = location;
+        this.start = start;
+        this.end = end;
+        this.customerID =customerID;
+        this.userID = userID;
+        this.contactID = contactID;
+    }
 
     /**
      * @return the id
@@ -85,6 +96,76 @@ public class Appointments {
     }
 
     /**
+     * @return the start
+     */
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    /**
+     * @param start the start to set
+     */
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    /**
+     * @return the end
+     */
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    /**
+     * @param end the end to set
+     */
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    /**
+     * @return the customerID
+     */
+    public Integer getCustomerID() {
+        return customerID;
+    }
+
+    /**
+     * @param customerID the customerID to set
+     */
+    public void setCustomerID(Integer customerID) {
+        this.customerID = customerID;
+    }
+
+    /**
+     * @return the userID
+     */
+    public Integer getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    /**
+     * @return the contactID
+     */
+    public Integer getContactID() {
+        return contactID;
+    }
+
+    /**
+     * @param contactID the contactID to set
+     */
+    public void setContactID(Integer contactID) {
+        this.contactID = contactID;
+    }
+
+    /**
      * @return the type
      */
     public String getType() {
@@ -98,131 +179,5 @@ public class Appointments {
         this.type = type;
     }
 
-    /**
-     * @return the start
-     */
-    public String getStart() {
-        return start;
-    }
-
-    /**
-     * @param start the start to set
-     */
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    /**
-     * @return the end
-     */
-    public String getEnd() {
-        return end;
-    }
-
-    /**
-     * @param end the end to set
-     */
-    public void setEnd(String end) {
-        this.end = end;
-    }
-
-    /**
-     * @return the createDate
-     */
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    /**
-     * @param createDate the createDate to set
-     */
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-    /**
-     * @return the createdBy
-     */
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    /**
-     * @param createdBy the createdBy to set
-     */
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * @return the lastUpdate
-     */
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * @param lastUpdate the lastUpdate to set
-     */
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    /**
-     * @return the lastUpdatedBy
-     */
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    /**
-     * @param lastUpdatedBy the lastUpdatedBy to set
-     */
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    /**
-     * @return the customer
-     */
-    public String getCustomer() {
-        return customer;
-    }
-
-    /**
-     * @param customer the customer to set
-     */
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
-
-    /**
-     * @return the user
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    /**
-     * @return the contact
-     */
-    public String getContact() {
-        return contact;
-    }
-
-    /**
-     * @param contact the contact to set
-     */
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-    
     
 }

@@ -8,20 +8,20 @@
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainMenuController">
    <children>
-      <TableView layoutX="75.0" layoutY="50.0" prefHeight="250.0" prefWidth="650.0">
+      <TableView fx:id="appointmentsTV" layoutX="20.0" layoutY="47.0" prefHeight="319.0" prefWidth="763.0">
         <columns>
-          <TableColumn prefWidth="50.0" text="Id" />
-          <TableColumn prefWidth="100.0" text="Customer" />
-            <TableColumn prefWidth="65.0" text="Title" />
-            <TableColumn prefWidth="90.0" text="Description" />
-            <TableColumn prefWidth="75.0" text="Location" />
-            <TableColumn prefWidth="75.0" text="Type" />
-            <TableColumn prefWidth="120.0" text="Date" />
-            <TableColumn prefWidth="85.0" text="Start" />
-            <TableColumn prefWidth="85.0" text="End" />
+          <TableColumn fx:id="appIDCol" prefWidth="40.0" text="Id" />
+            <TableColumn fx:id="appTitleCol" text="Title" />
+            <TableColumn fx:id="appDescrCol" prefWidth="115.0" text="Description" />
+            <TableColumn fx:id="appLocCol" prefWidth="100.0" text="Location" />
+            <TableColumn fx:id="appContactCol" prefWidth="96.0" text="Contact" />
+            <TableColumn fx:id="appTypeCol" minWidth="50.0" prefWidth="89.0" text="Type" />
+            <TableColumn fx:id="appStartCol" minWidth="50.0" prefWidth="118.0" text="Start" />
+            <TableColumn fx:id="appEndCol" minWidth="49.0" prefWidth="114.0" text="End" />
+            <TableColumn fx:id="appCustIDCol" minWidth="50.0" prefWidth="128.0" text="Customer_ID" />
         </columns>
       </TableView>
-      <Button layoutX="75.0" layoutY="431.0" mnemonicParsing="false" prefWidth="163.0" text="Modify Customer" />
+      <Button layoutX="75.0" layoutY="431.0" mnemonicParsing="false" onAction="#onActionModifyCustomer" prefWidth="163.0" text="Modify Customer" />
       <Button layoutX="269.0" layoutY="385.0" mnemonicParsing="false" prefWidth="163.0" text="Add Appointment" />
       <Button layoutX="75.0" layoutY="385.0" mnemonicParsing="false" onAction="#onActionAddCustomer" prefWidth="163.0" text="Add Customer" />
       <Button layoutX="269.0" layoutY="431.0" mnemonicParsing="false" text="Modify Appointment" />
