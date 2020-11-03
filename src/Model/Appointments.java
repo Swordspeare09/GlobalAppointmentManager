@@ -34,7 +34,7 @@ public class Appointments {
         this.location = location;
         this.start = start;
         this.end = end;
-        this.customerID =customerID;
+        this.customerID = customerID;
         this.userID = userID;
         this.contactID = contactID;
     }

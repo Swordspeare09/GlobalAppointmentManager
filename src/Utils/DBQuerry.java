@@ -6,6 +6,7 @@
 package Utils;
 
 import Model.Appointments;
+import Model.Contact;
 import Model.Country;
 import Model.Customer;
 import Model.Region;
@@ -29,9 +30,12 @@ import javafx.collections.ObservableList;
 public class DBQuerry {
     
     private static PreparedStatement statement;
+    
+    //ObservableList variables used in queries functions
     static ObservableList<Country> countryList = FXCollections.observableArrayList();
     static ObservableList<Region> regionList = FXCollections.observableArrayList();
     static ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    static ObservableList<Contact> contactList = FXCollections.observableArrayList(); 
     static ObservableList<Appointments> appointmentList = FXCollections.observableArrayList(); 
     
     //Create Statement Object
@@ -126,6 +130,28 @@ public class DBQuerry {
         return regionList;
     }
     
+    //Query used for filling in all Contacts
+    public static ObservableList<Contact> getAllContacts() 
+    {
+        try{
+           //Removed all previously stored Contacts to prevent duplicate entries 
+           contactList.removeAll(contactList);
+           Connection conn = DBConnection.getConnection();
+           String queryStatement = "SELECT Contact_ID, Contact_Name FROM contacts";
+           DBQuerry.setPreparedStatement(conn, queryStatement);
+           PreparedStatement ps = DBQuerry.getPreparedStatement();
+           ResultSet tempList = ps.executeQuery();
+           while(tempList.next())
+           {
+               Contact tempContact = new Contact(tempList.getInt("Contact_ID"), tempList.getString("Contact_Name"));
+               contactList.add(tempContact);
+           }
+        }catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        return contactList;
+    }
+    
     //Query used for Filling in All Customers
     public static ObservableList<Customer> getAllCustomers() throws SQLException
     {
@@ -135,8 +161,9 @@ public class DBQuerry {
             customerList.removeAll(customerList);
             Connection conn = DBConnection.getConnection();
             String queryStatement = "select c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, "
-                                    + "c.Phone, r.Division, Country from customers as c inner join  first_level_divisions as r "
-                                    + " on r.Division_ID = c.Division_ID inner join countries as co on r.Country_ID = co.Country_ID;";
+                                    + "c.Phone, r.Division, r.Division_ID, co.Country, co.Country_ID from customers "
+                                    + "as c inner join  first_level_divisions as r  on r.Division_ID = c.Division_ID "
+                                    + "inner join countries as co on r.Country_ID = co.Country_ID;";
             DBQuerry.setPreparedStatement(conn, queryStatement);
             PreparedStatement ps = DBQuerry.getPreparedStatement();
             ResultSet tempList = ps.executeQuery();
@@ -149,7 +176,9 @@ public class DBQuerry {
                         tempList.getString("Postal_Code"),
                         tempList.getString("Phone"),
                         tempList.getString("Division"),
-                        tempList.getString("Country")
+                        tempList.getInt("Division_ID"),
+                        tempList.getString("Country"),
+                        tempList.getInt("Country_ID")
                         );
                 customerList.add(tempCustomer);
             }
@@ -199,7 +228,7 @@ public class DBQuerry {
     {
         try{
         
-            //Used to get time of user log in
+            //Used to get time of new Customer creation 
             LocalDateTime now = LocalDateTime.now();
             //Formatting LDT object
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -229,6 +258,50 @@ public class DBQuerry {
         }
     }
     
+     public static void addAppointment(Appointments newApp)
+    {
+        try
+        {
+            //Used to get time of new Appointments creation 
+            LocalDateTime now = LocalDateTime.now();
+            
+            //Used to format and convert LocalDateTime Objects into string pattern
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String newStart = dtf.format(newApp.getStart());
+            String newEnd = dtf.format(newApp.getEnd());
+            String newNow = dtf.format(now);
+            
+            Connection conn = DBConnection.getConnection();
+            String queryStatement = "insert into appointments(Title, Description, Location, Type, "
+                                    + "Start, End, Create_Date, Created_By, Last_Updated_By, Customer_ID, "
+                                    + "User_ID, Contact_ID) Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            DBQuerry.setPreparedStatement(conn, queryStatement);
+            PreparedStatement ps = DBQuerry.getPreparedStatement();
+        
+            //Key-value mapping
+            ps.setString(1, newApp.getTitle());
+            ps.setString(2, newApp.getDescription());
+            ps.setString(3, newApp.getLocation());
+            ps.setString(4, newApp.getType());
+            ps.setString(5, newStart);
+            ps.setString(6, newEnd);
+            ps.setString(7, newNow);
+            ps.setString(8, User.getUserName());
+            ps.setString(9, User.getUserName());
+            ps.setString(10, String.valueOf(newApp.getCustomerID()));
+            ps.setString(11, String.valueOf(User.getUserID()));
+            ps.setString(12, String.valueOf(newApp.getContactID()));
+            
+            Integer rs = ps.executeUpdate();
+            System.out.println(rs);
+            
+        }catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+    
+    } 
+    
     public static int getNewID() throws SQLException
     {
         Integer newID = 0;
@@ -241,6 +314,24 @@ public class DBQuerry {
         //Returns greatest ID value and assigns it to local variable
         if(rs.next())
             newID = rs.getInt("Customer_ID");
+        
+        //Increments newID value by 1
+        newID++;
+        return newID;
+    }
+    
+    public static int getNewAppID() throws SQLException
+    {
+        Integer newID = 0;
+        Connection conn = DBConnection.getConnection();
+        String queryStatement = "SELECT Appointment_ID FROM appointments WHERE Appointment_ID=(SELECT MAX(Appointment_ID) FROM appointments)";
+        DBQuerry.setPreparedStatement(conn, queryStatement);
+        PreparedStatement ps = DBQuerry.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+        
+        //Returns greatest ID value and assigns it to local variable
+        if(rs.next())
+            newID = rs.getInt("Appointment_ID");
         
         //Increments newID value by 1
         newID++;

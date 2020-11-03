@@ -18,6 +18,7 @@ import static Utils.DBQuerry.getRegions;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +29,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -46,9 +46,6 @@ public class AddCustomerController implements Initializable {
     
     Stage stage;
     Parent scene;
-
-   @FXML
-    private Button returnMainMenuBtn;
 
     @FXML
     private TextField cPhoneTF;
@@ -112,7 +109,15 @@ public class AddCustomerController implements Initializable {
                 
                 try{
                     //Creates new customer object for SQL INSERT statement
-                    Customer tempCust = new Customer(Integer.parseInt(tID), tName, tAddress, tPost, tPhone, tRegion, tCountry);
+                    Customer tempCust = new Customer(
+                                        Integer.parseInt(tID), 
+                                        tName, tAddress, 
+                                        tPost, 
+                                        tPhone, 
+                                        tRegion, 
+                                        regionCB.getSelectionModel().getSelectedItem().getId(),
+                                        tCountry,
+                                        countryCB.getSelectionModel().getSelectedItem().getId());
                     addCustomer(tempCust, regionCB.getSelectionModel().getSelectedItem().getId());
                 
                     //Loads up Main Menu Screen
@@ -157,9 +162,7 @@ public class AddCustomerController implements Initializable {
 
     @FXML
     private void onActionReturnMainMenu(ActionEvent event) throws IOException {
-        
-        //Used to clear Everything from Combo Boxes and TextFields
-        
+
         //Used to Return to main Menu Screen
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	scene = FXMLLoader.load(getClass().getResource("/View/MainMenu.fxml"));
@@ -176,6 +179,8 @@ public class AddCustomerController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(AddCustomerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        //Sets Cell values for each column used in Customer table
         customerIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         customerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));

@@ -78,7 +78,6 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Loads All Appointments from the beginning
-        //customerIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         appIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         appTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -123,8 +122,21 @@ public class MainMenuController implements Initializable {
     }
     
     @FXML
-    void onActionModifyCustomer(ActionEvent event) {
+    void onActionModifyCustomer(ActionEvent event) throws IOException {
+        
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	scene = FXMLLoader.load(getClass().getResource("/View/ModifyCustomer.fxml"));
+	stage.setScene(new Scene(scene));
+	stage.show();
+    }
+    
+        @FXML
+    void onActionAddAppointment(ActionEvent event) throws IOException {
 
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	scene = FXMLLoader.load(getClass().getResource("/View/AddAppointment.fxml"));
+	stage.setScene(new Scene(scene));
+	stage.show();
     }
 
     

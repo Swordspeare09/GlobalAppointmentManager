@@ -22,7 +22,7 @@
         </columns>
       </TableView>
       <Button layoutX="75.0" layoutY="431.0" mnemonicParsing="false" onAction="#onActionModifyCustomer" prefWidth="163.0" text="Modify Customer" />
-      <Button layoutX="269.0" layoutY="385.0" mnemonicParsing="false" prefWidth="163.0" text="Add Appointment" />
+      <Button layoutX="269.0" layoutY="385.0" mnemonicParsing="false" onAction="#onActionAddAppointment" prefWidth="163.0" text="Add Appointment" />
       <Button layoutX="75.0" layoutY="385.0" mnemonicParsing="false" onAction="#onActionAddCustomer" prefWidth="163.0" text="Add Customer" />
       <Button layoutX="269.0" layoutY="431.0" mnemonicParsing="false" text="Modify Appointment" />
       <Label layoutX="280.0" layoutY="14.0" text="Global Appointment Manager" />

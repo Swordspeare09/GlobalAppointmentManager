@@ -13,6 +13,6 @@
       <TextField fx:id="usernameTF" layoutX="107.0" layoutY="105.0" />
       <TextField fx:id="passwordTF" layoutX="107.0" layoutY="150.0" />
       <Label layoutX="118.0" layoutY="54.0" text="Sign In to Continue" />
-      <Label fx:id="countryLabel" layoutX="123.0" layoutY="250.0" text="US User Identified" />
+      <Label fx:id="countryLabel" layoutX="123.0" layoutY="250.0" text="XX User Identified" />
     </children>
 </AnchorPane>

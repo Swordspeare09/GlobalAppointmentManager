@@ -49,6 +49,7 @@ public class Country {
         this.name = name;
     }
     
+    //Overides the toString method used to display the Country in the ComboBox
     @Override
     public String toString()
     {

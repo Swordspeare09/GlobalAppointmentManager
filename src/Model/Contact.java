@@ -14,14 +14,12 @@ public class Contact {
     //Priavte class variables
     private int id;
     private String name;
-    private String email;
     
     //Constructor method for creating part objects
-    public Contact (int id, String name, String email)
+    public Contact (int id, String name)
     {
         this.id = id;
         this.name = name;
-        this.email = email;
     }
     
     //Public mutator methods
@@ -31,9 +29,6 @@ public class Contact {
 	
     public void setName(String name) {
 	this.name = name;
-    }
-   public void setEmail(String email) {
-	this.email = email;
     }
     
     //Public accessor methods
@@ -45,8 +40,11 @@ public class Contact {
 	return this.name;
     }
     
-    public String getEmail() {
-	return this.email;
+    //Overides the toString method used to display the Contacts in the ComboBox
+    @Override
+    public String toString()
+    {
+        return (name);
     }
-    
+
 }

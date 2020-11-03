@@ -12,16 +12,18 @@ package Model;
 public class Customer {
     
     //Priavte class variables
-    private int id;
+    private Integer id;
     private String name;
     private String postalCode;
     private String phone;
     private String address;
     private String region;
+    private Integer regionID;
     private String country;
+    private Integer countryID;
     
     //Condensed version of Customer to be able to use for Customer table defined in AddCustomerController and ModifyCustomerController files
-    public Customer(int id, String name, String address, String postalCode, String phone, String region, String country )
+    public Customer(Integer id, String name, String address, String postalCode, String phone, String region, Integer regionID, String country, Integer countryID)
     {
         this.id = id;
         this.name = name;
@@ -29,7 +31,9 @@ public class Customer {
         this.postalCode = postalCode;
         this.phone = phone;
         this.region = region;
+        this.regionID = regionID;
         this.country = country;
+        this.countryID = countryID;
     }
 
     /**
@@ -129,6 +133,40 @@ public class Customer {
     public void setRegion(String region) {
         this.region = region;
     }
+
+    /**
+     * @return the regionID
+     */
+    public Integer getRegionID() {
+        return regionID;
+    }
+
+    /**
+     * @param regionID the regionID to set
+     */
+    public void setRegionID(Integer regionID) {
+        this.regionID = regionID;
+    }
+
+    /**
+     * @return the countryID
+     */
+    public Integer getCountryID() {
+        return countryID;
+    }
+
+    /**
+     * @param countryID the countryID to set
+     */
+    public void setCountryID(Integer countryID) {
+        this.countryID = countryID;
+    }
     
+    //Overides the toString method used to display the Customers in the ComboBox
+    @Override
+    public String toString()
+    {
+        return (name);
+    }
     
 }

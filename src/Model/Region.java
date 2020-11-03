@@ -48,6 +48,7 @@ public class Region {
         this.name = name;
     }
     
+    //Overides the toString method used to display the Region in the ComboBox
     @Override
     public String toString()
     {
